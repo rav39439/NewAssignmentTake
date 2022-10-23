@@ -139,6 +139,22 @@ app.post("/booking",function(req,res){
         
     })
 })
+app.get("/booking/:phoneno",function(req,res){
+
+    console.log(req.body)
+
+    var mydata = "select * from `TABLE 8` where phoneno='"+req.params.phoneno+"'";
+
+    connection.query(mydata, function (err, result) {
+        if (err) {throw err}
+        else{
+            data = JSON.stringify(result)
+            res.send(data)
+        }
+
+        
+    })
+})
 
 
 
