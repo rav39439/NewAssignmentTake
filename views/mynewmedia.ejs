@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+   
+    <title>Document</title>
+
+    <style>
+.new5{
+  margin-left: 60px;
+}
+
+.new4{
+  display: inline-flex;
+  width: 1300px;
+}
+@media only screen and (max-width: 600px) {
+
+
+.new4{
+display: block;
+  width:315px;
+ 
+}
+.new5{
+  margin-left: 0px;
+}
+}
+    </style>
+</head>
+<body>
+    <div id="progress">
+
+    </div>
+   
+<br>
+    <!-- <div>
+        <h1>Base64 encoded version</h1>
+        <textarea id="base64textarea" placeholder="Base64 will appear here" cols="50" rows="15"></textarea>
+    </div> -->
+
+    <div id="allsongs">
+   
+      <br>
+    </div>
+
+
+
+
+
+
+<div style="margin-top:700px">
+  <hr>
+<h1>Search song</h1>
+<div>
+<input type="text"id="filepath">
+
+<button  type="click" onclick="Retrieve()"class="btn btn bg-primary">Retrieve</button>
+
+</div>
+
+
+<h1>Upload file</h1>
+<div>
+  <label for="filePicker">Choose or drag a file:</label><br>
+  <input type="file" id="filePicker">
+</div>
+<div>
+  <label for="filePicker">Rollv</label><br>
+  <input type="text" id="rollv">
+</div>
+<button  type="click" onclick="uploadmedia()"class="btn btn bg-primary">upload data from firebase</button>
+
+
+
+<button  type="click" onclick="RetrieveAll()"class="btn btn bg-primary">Retrieve all data from firebase</button>
+
+</div>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
+      <script>
+//-----------------------------------------using mysql------------------------------------------------------
+// var handleFileSelect = function(evt) {
+//     var files = evt.target.files;
+//     var file = files[0];
+//     var filename = files[0].name;
+// console.log(filename)
+//     if (files && file) {
+//         var reader = new FileReader();
+
+//         reader.onload = function(readerEvt) {
+//             var binaryString = readerEvt.target.result;
+//             document.getElementById("base64textarea").value = btoa(binaryString);
+//            // console.log(btoa(binaryString))
+//            //console.log(document.getElementById("base64textarea").value)
+
+//            callback( document.getElementById("base64textarea").value,filename)
+
+//         };
+   
+//         reader.readAsBinaryString(file);
+//     }
+// };
+
+// if (window.File && window.FileReader && window.FileList && window.Blob) {
+//     document.getElementById('filePicker').addEventListener('change', handleFileSelect, false);
+// } else {
+//     alert('The File APIs are not fully supported in this browser.');
+// }
+
+
+// function callback(base64,filename) {
+
+   
+//    // data= base64.split(',')[1];
+
+//     const bytearrays = b64toBlob(base64, 'image/jpg');
+
+// var urlCreator = window.URL || window.webkitURL;
+// const blob = new Blob(bytearrays, {type: contentType=''});
+//         var imageUrl = urlCreator.createObjectURL(blob);
+       
+//         var decoder = new TextDecoder('utf8');
+// var b64encoded = btoa(decoder.decode(bytearrays[1]));
+// console.log(blob.arrayBuffer())//returns a promise------------------------------------
+      
+
+
+
+//     var xhr = new XMLHttpRequest();
+
+// xhr.open("POST","/new", true);
+// xhr.onreadystatechange = function (result) {
+//                 if (xhr.readyState === 4 && xhr.status === 200) {
+ 
+                 
+                
+ 
+//                 }
+//             };
+// xhr.setRequestHeader("Content-Type", "application/json");
+
+//  xhr.send(JSON.stringify({
+//     "name":filename,
+//     "base64":base64,
+//    "blob":imageUrl
+    
+//  }));
+// }
+
+// const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+//   const byteCharacters = atob(b64Data);
+//  // console.log(byteCharacters)
+//   const byteArrays = [];
+
+//   for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+//     const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+//     const byteNumbers = new Array(slice.length);
+//     for (let i = 0; i < slice.length; i++) {
+//       byteNumbers[i] = slice.charCodeAt(i);
+//     }
+
+//     const byteArray = new Uint8Array(byteNumbers);
+//     byteArrays.push(byteArray);
+//   }
+
+//   //const blob = new Blob(byteArrays, {type: contentType});
+//   return byteArrays;
+// }
+
+
+//-------------------------------------------Firebase-------------------------------------------------------
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAZ9x_QbhCfY9aEsqxEiYhWtfIRNGl_qeo",
+  authDomain: "mynewproject-ae49a.firebaseapp.com",
+  projectId: "mynewproject-ae49a",
+  storageBucket: "mynewproject-ae49a.appspot.com",
+  messagingSenderId: "939005557600",
+  appId: "1:939005557600:web:ee766070db4bd2dadfbc05",
+  measurementId: "G-YFKTT151SN"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+
+    async function uploadmedia() {
+      const ref = firebase.storage().ref();
+      let rollv=document.getElementById('rollv').value
+      const file = document.querySelector("#filePicker").files[0];
+      const name = +new Date() + "-" + file.name;
+      const metadata = {
+        contentType: file.type
+      };
+    
+          try{
+            await ref.child("Songs/"+file.name).put(file, metadata).then(snapshot => snapshot.ref.getDownloadURL())
+        .then(url => {
+           
+
+      //let progress = (100.0 * snapshot.bytesTransferred) / file.size;
+
+
+
+
+        document.getElementById('progress').innerHTML="Completed"
+// newcallack(file.name,url)
+      
+    
+      })
+
+
+
+
+
+       
+    }
+    catch(err){
+        console.log(err)
+    }
+
+
+
+    }
+
+// function newcallack(url,name){
+
+//   firebase.database().ref("mydata").set({
+// filename:name,
+// filedescription:"It is a new mp3",
+// fileurl:url
+
+//   })
+// }
+
+
+
+
+
+async function deleteelm(data){
+console.log(data.name)
+
+    const ref = firebase.storage().ref();
+try{
+    ref.child("Songs/"+data.name).delete()
+    console.log("file is deleted")
+    RetrieveAll()
+}
+ catch(err){
+    console.log(err)
+ }
+
+}
+
+
+ function Retrieve(){
+    filelocation=document.getElementById("filepath").value
+    const ref = firebase.storage().ref();
+    const images = firebase.storage().ref().child("Songs/"+filelocation);
+ const image = images.child(filelocation);
+ image.getDownloadURL().then((url) => { 
+  console.log(url)
+
+  var httpsReference = firebase.storage().refFromURL(url);
+          let fileName = httpsReference.name;
+
+
+
+  document.getElementById("allsongs").innerHTML=`<div class="media border-5">
+        <img class="mr-3" class="border" src="data:image/png;base64,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" id="myimage"alt="Generic placeholder image">
+        <audio controls style="margin-left:100px ;">
+          <source src="${url}" type="audio/mp3">
+        </audio>
+        <div class="media-body ml-5"style="float:right;margin-right:300px">
+
+          
+          <h5 style="font-size:22px"  class="mt-0">Song </h5>
+          <p style="font-size:18px ;">${filename}</p>
+          <button  name="${filename}" onclick="deleteelm(this)"class="btn btn bg-primary">Delete </button>
+         
+        </div>
+      </div>
+      <br>
+      <hr>
+      `
+    
+ });
+}
+
+
+
+function RetrieveAll(){
+    const ref = firebase.storage().ref();
+    const images = firebase.storage().ref().child("Songs");
+
+  
+    images.listAll().then(function(result) {
+      let html=""
+      result.items.forEach(function(imageRef) {
+        // And finally display them
+let filename=imageRef.name
+
+        imageRef.getDownloadURL().then((url) => { 
+
+          var httpsReference = firebase.storage().refFromURL(url);
+          let fileName = httpsReference.name;
+
+
+         html +=`<div class="media border-5 bg-light border new4">
+        <img class="mr-3" class="border" src="data:image/png;base64,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" id="myimage"alt="Generic placeholder image">
+        <audio controls class="new5">
+          <source src="${url}" type="audio/mp3">
+        </audio>
+        <div class="media-body ml-5"style="">
+
+          
+          <h5 style="font-size:22px"  class="mt-0">Song </h5>
+          <p style="font-size:18px ;">${filename}</p>
+          <button  name="${filename}" onclick="deleteelm(this)"class="btn btn bg-primary">Delete </button>
+         
+        </div>
+      </div>
+      <br>
+      <hr>
+      `
+//if(typeof(document.getElementById("allsongs")).innerHTML==null){
+  
+  document.getElementById("allsongs").innerHTML =html
+
+//}
+});
+
+
+      });
+
+
+      
+
+    }).catch(function(error) {
+      // Handle any errors
+    });
+
+}
+
+
+      </script>
+
+
+</body>
+</html>

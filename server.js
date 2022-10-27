@@ -8,9 +8,13 @@ require('dotenv').config()
 const connection = require('./db')
 
 var bodyParser=require("body-parser")
-//app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.urlencoded())
-app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
+// app.use(bodyParser.json({limit: '50mb'}))
+
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
+app.set("view engine", "ejs")
+
 app.get('/seats', (req, res) => {
 
    
@@ -157,6 +161,29 @@ app.get("/booking/:phoneno",function(req,res){
 })
 
 
+
+
+app.get("/media",function(req,res){
+
+
+    res.render('login.ejs')
+})
+
+
+app.post("/login",function(req,res){
+    if(req.body.username=="rav9876iy"&&req.body.password=="rav87906"){
+        res.redirect("/newmedia")
+    }
+})
+
+app.get("/newmedia",function(req,res){
+    res.render("mynewmedia")
+})
+
+
+app.post("/new",function(req,res){
+    console.log(req.body)
+})
 
 const PORT=process.env.PORT
 
